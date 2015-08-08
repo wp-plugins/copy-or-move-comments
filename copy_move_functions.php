@@ -6,10 +6,8 @@ class copy_move_functions
         global $wpdb;
         $data = array();
 
-        $data = $wpdb->get_results("select id, post_title
-                    from $wpdb->posts
-                    where post_status = 'publish' and post_type='".$post_type."'
-                    order by id desc");
+        $data = $wpdb->get_results( $wpdb->prepare( "select id, post_title from $wpdb->posts where post_status = 'publish' and post_type = %s order by id desc", $post_type ) );
+        //$data = $wpdb->get_results("select id, post_title from $wpdb->posts where post_status = 'publish' and post_type='".$post_type."' order by id desc");
         return $data;
     }
     
@@ -20,11 +18,8 @@ class copy_move_functions
 
         if(is_numeric($id))
         {        
-            $data = $wpdb->get_results("select comment_id, comment_author, 
-                        comment_date, comment_content
-                        from $wpdb->comments
-                        where comment_post_id = $id
-                        order by comment_id desc");
+            $data = $wpdb->get_results( $wpdb->prepare( "select comment_id, comment_author,comment_date, comment_content from $wpdb->comments where comment_post_id = %s order by comment_id desc", $id ) );
+            //$data = $wpdb->get_results("select comment_id, comment_author,comment_date, comment_content from $wpdb->comments where comment_post_id = $id order by comment_id desc");
         }
         return $data;
     }
@@ -33,13 +28,14 @@ class copy_move_functions
     {
         global $wpdb;
         $post_types = get_post_types( '', 'names' );
-                                unset($post_types['attachment']);
+                                //unset($post_types['attachment']);
                                 unset($post_types['revision']);
                                 unset($post_types['nav_menu_item']);
                    $post_type = "'".implode("','",$post_types)."'";
-                   
+                        //DebugBreak();
         $data = array();
-        $data = $wpdb->get_results("select ID, post_title from $wpdb->posts where post_status = 'publish' and post_type IN ($post_type) and ID NOT IN(SELECT ID FROM $wpdb->posts where ID='$post_id') order by id desc");
+        $data = $wpdb->get_results( $wpdb->prepare("select ID, post_title from $wpdb->posts where post_status = 'publish' and post_type IN (%d) and ID NOT IN(SELECT ID FROM $wpdb->posts where ID=%s) order by id desc", $post_type,$post_id ) );
+        //$data = $wpdb->get_results("select ID, post_title from $wpdb->posts where post_status = 'publish' and post_type IN ($post_type) and ID NOT IN(SELECT ID FROM $wpdb->posts where ID='$post_id') order by id desc");
         return $data;
     }
     
@@ -49,31 +45,29 @@ class copy_move_functions
         
         if($get_action_type == 'move'){
             // update the comment_post_id to $target_post_id
-        $sql[] = "update {$wpdb->comments}
-                set comment_post_id = $target_post_id
-                where comment_id IN ($comment_id)";
+        //$sql[] = "update {$wpdb->comments} set comment_post_id = $target_post_id where comment_id IN ($comment_id)";
+            
+            $wpdb->query($wpdb->prepare("update {$wpdb->comments} set comment_post_id = %d where comment_id IN (%s)",$target_post_id,$comment_id));
 
         //Decrement the comment_count in the $source_post_id
-        $sql[] = "update {$wpdb->posts}
-                set comment_count = comment_count-1
-                where id = $source_post_id
-                and post_status = 'publish'";
+        //$sql[] = "update {$wpdb->posts} set comment_count = comment_count-1 where id = $source_post_id and post_status = 'publish'";
+        $wpdb->query($wpdb->prepare("update {$wpdb->posts} set comment_count = comment_count-1 where id = %s and post_status = 'publish'",$source_post_id));
                 
         // Increment the comment_count in the $target_post_id
-        $sql[] = "update {$wpdb->posts}
-                set comment_count = comment_count+1
-                where id = $target_post_id
-                and post_status = 'publish'";
+        //$sql[] = "update {$wpdb->posts} set comment_count = comment_count+1 where id = $target_post_id and post_status = 'publish'";
+        $wpdb->query($wpdb->prepare("update {$wpdb->posts} set comment_count = comment_count+1 where id = %s and post_status = 'publish'",$target_post_id));
         
-        foreach($sql as $query)
+        /*foreach($sql as $query)
         {
-            $wpdb->query($query);
-        }
+            $wpdb->query($wpdb->prepare($query));
+        }*/
         
         }
         if($get_action_type == 'copy')
         {
-            $all_comments = $wpdb->get_results("select * from $wpdb->comments where comment_id IN ($comment_id)");
+              
+            $all_comments = $wpdb->get_results($wpdb->prepare( "select * from $wpdb->comments where comment_id IN (%s)", $comment_id ));
+            //$all_comments = $wpdb->get_results("select * from $wpdb->comments where comment_id IN ($comment_id)");
             foreach($all_comments as $data1)
             {
                 $data = array(
@@ -94,4 +88,5 @@ class copy_move_functions
             }
         }
     }
-}?>
+}
+?>

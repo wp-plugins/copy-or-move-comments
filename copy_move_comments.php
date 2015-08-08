@@ -3,7 +3,7 @@
 Plugin Name: Copy Or Move Comments
 Plugin URI: 
 Description: Using Copy/Move WordPress Plugin the admin can copy or move any comment from several types of pages to any other page!
-Version: 1.0.0
+Version: 1.0.1
 Author: biztechc
 Author URI: https://profiles.wordpress.org/biztechc/
 License: GPLv2
@@ -57,7 +57,7 @@ if (!class_exists('copy_move_comments'))
                 <div class="alignleft actions">
                     <?php
                 $post_types = get_post_types( '', 'names' );
-                                unset($post_types['attachment']);
+                                //unset($post_types['attachment']);
                                 unset($post_types['revision']);
                                 unset($post_types['nav_menu_item']);?>
                                 <label for="cat" class="screen-reader-text">All Post Types</label>
@@ -142,8 +142,8 @@ function copy_move_get_all_posts()
 }
 function get_all_posts_callback()
 {
-   $post_type = $_POST['post_type'];
-   $action_type = $_POST['action_type'];
+   $post_type = sanitize_text_field($_POST['post_type']);
+   $action_type = sanitize_text_field($_POST['action_type']);
     $get_res = new copy_move_functions();
     $get_posts = $get_res->get_posts($post_type);?>
     <option value="">Select Source Post</option>
@@ -177,9 +177,9 @@ function get_all_posts_callback()
 }
 function get_post_comments_callback()
 {
-    $post_id = $_POST['post_id'];
-    $post_type = $_POST['post_type'];
-    $action_type = $_POST['action_type'];
+    $post_id = sanitize_text_field($_POST['post_id']);
+    $post_type = sanitize_text_field($_POST['post_type']);
+    $action_type = sanitize_text_field($_POST['action_type']);
     $get_res1 = new copy_move_functions();
     $get_comments = $get_res1->get_all_comments_by_postid($post_id); ?>
   
