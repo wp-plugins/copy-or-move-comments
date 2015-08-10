@@ -45,22 +45,18 @@ class copy_move_functions
         
         if($get_action_type == 'move'){
             // update the comment_post_id to $target_post_id
-        //$sql[] = "update {$wpdb->comments} set comment_post_id = $target_post_id where comment_id IN ($comment_id)";
+        $sql[] = "update {$wpdb->comments} set comment_post_id = $target_post_id where comment_id IN ($comment_id)";
             
-            $wpdb->query($wpdb->prepare("update {$wpdb->comments} set comment_post_id = %d where comment_id IN (%s)",$target_post_id,$comment_id));
-
         //Decrement the comment_count in the $source_post_id
-        //$sql[] = "update {$wpdb->posts} set comment_count = comment_count-1 where id = $source_post_id and post_status = 'publish'";
-        $wpdb->query($wpdb->prepare("update {$wpdb->posts} set comment_count = comment_count-1 where id = %s and post_status = 'publish'",$source_post_id));
-                
-        // Increment the comment_count in the $target_post_id
-        //$sql[] = "update {$wpdb->posts} set comment_count = comment_count+1 where id = $target_post_id and post_status = 'publish'";
-        $wpdb->query($wpdb->prepare("update {$wpdb->posts} set comment_count = comment_count+1 where id = %s and post_status = 'publish'",$target_post_id));
+        $sql[] = "update {$wpdb->posts} set comment_count = comment_count-1 where id = $source_post_id and post_status = 'publish'";
         
-        /*foreach($sql as $query)
+        // Increment the comment_count in the $target_post_id
+        $sql[] = "update {$wpdb->posts} set comment_count = comment_count+1 where id = $target_post_id and post_status = 'publish'";
+        
+        foreach($sql as $query)
         {
             $wpdb->query($wpdb->prepare($query));
-        }*/
+        }
         
         }
         if($get_action_type == 'copy')
