@@ -2,7 +2,7 @@
 Contributors: biztechc
 Tags: Copy/move all comments, migrate WP comments, Copy/Move Pages comment, Copy all comments, Move all comments
 Requires at least: 3.5.2
-Tested up to: 4.2
+Tested up to: 4.3
 Stable tag: 1.0.1
 License: GPLv2 or later
 
