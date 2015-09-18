@@ -2,8 +2,8 @@
 Contributors: biztechc
 Tags: Copy/move all comments, migrate WP comments, Copy/Move Pages comment, Copy all comments, Move all comments
 Requires at least: 3.5.2
-Tested up to: 4.3
-Stable tag: 1.0.1
+Tested up to: 4.3.1
+Stable tag: 2.0.0
 License: GPLv2 or later
 
 Using Copy/Move WordPress Plugin the admin can copy or move any comment from several types of pages to any other page!
@@ -14,7 +14,9 @@ Using Copy/Move WordPress Plugin the admin can copy or move any comment from sev
 3. In TAB there is another drop down selection for several post types.
 4. After select post type next drop down selection will displaying all the post's title.
 5. Selected post title will displaying all its the comments.
-6. Admin can have select option for target post in which admin can copy comments or moving comments.
+6. Admin can have select option for target post types.
+7. After select post type next drop down selection will displaying all the post's title in which admin can copy comments or moving comments for that selected post.
+ 
 
 == Installation ==
 
@@ -36,3 +38,5 @@ Is this plugin prepared for multisites? Yes.
 * First release this pluign
 = 1.0.1 =
 * Solve vulnerability 
+= 2.0.0 =
+* For Copy/Move comments, Added Target Post Type also. 
