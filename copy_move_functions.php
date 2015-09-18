@@ -18,7 +18,7 @@ class copy_move_functions
 
         if(is_numeric($id))
         {        
-            $data = $wpdb->get_results( $wpdb->prepare( "select comment_id, comment_author,comment_date, comment_content from $wpdb->comments where comment_post_id = %s order by comment_id desc", $id ) );
+            $data = $wpdb->get_results( $wpdb->prepare( "select comment_id, comment_author,comment_date,comment_content,comment_approved from $wpdb->comments where comment_post_id = %s order by comment_id desc", $id ) );
             //$data = $wpdb->get_results("select comment_id, comment_author,comment_date, comment_content from $wpdb->comments where comment_post_id = $id order by comment_id desc");
         }
         return $data;
@@ -62,8 +62,8 @@ class copy_move_functions
         if($get_action_type == 'copy')
         {
               
-            $all_comments = $wpdb->get_results($wpdb->prepare( "select * from $wpdb->comments where comment_id IN (%s)", $comment_id ));
-            //$all_comments = $wpdb->get_results("select * from $wpdb->comments where comment_id IN ($comment_id)");
+           // $all_comments = $wpdb->get_results($wpdb->prepare( "select * from $wpdb->comments where comment_id IN (%s)", $comment_id ));
+            $all_comments = $wpdb->get_results("select * from $wpdb->comments where comment_id IN ($comment_id)");
             foreach($all_comments as $data1)
             {
                 $data = array(
