@@ -14,8 +14,7 @@ Using Copy/Move WordPress Plugin the admin can copy or move any comment from sev
 3. In TAB there is another drop down selection for several post types.
 4. After select post type next drop down selection will displaying all the post's title.
 5. Selected post title will displaying all its the comments.
-6. Admin can have select option for target post types.
-7. After select post type next drop down selection will displaying all the post's title in which admin can copy comments or moving comments for that selected post.
+6. Admin can have select option for target post in which admin can copy comments or moving comments.
  
 
 == Installation ==
@@ -36,7 +35,3 @@ Is this plugin prepared for multisites? Yes.
 == Changelog ==
 = 1.0.0 =
 * First release this pluign
-= 1.0.1 =
-* Solve vulnerability 
-= 2.0.0 =
-* For Copy/Move comments, Added Target Post Type also. 
