@@ -264,11 +264,15 @@ function get_post_comments_callback()
                 <td><input type="checkbox" value="<?php echo $get_comment->comment_id;?>" name="move_comment_id[]" class="chkbox_val"></td>
                 <td><?php echo $get_comment->comment_author;?></td>
                 <td><?php echo $get_comment->comment_content;?></td>
-                <?php if($get_comment->comment_approved == '1'){
+                <?php if($get_comment->comment_approved == '1')
+                {
                     $status = 'Approved';
-                }else
+                }else if($get_comment->comment_approved == '0')
                 {
                     $status = 'Pending';
+                }else if($get_comment->comment_approved == 'spam')
+                {
+                    $status = 'Spam';
                 }?>
                 <td><?php echo $status;?></td>
                 <td><?php echo $get_comment->comment_date;?></td>
