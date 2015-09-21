@@ -46,7 +46,7 @@ if (!class_exists('copy_move_comments'))
                 do_settings_sections( 'copy-move-settings-group' );
                 ?>
                 <div class="tablenav top">
-                <big style="float: left; margin-top: 5px; margin-right: 7px;"><?php _e("Source"); ?>:</big> 
+                <big style="float: left; margin-top: 5px; margin-right: 7px;"><?php _e("Action"); ?>:</big> 
                 <div class="alignleft actions">
                 <label class="screen-reader-text">Select Action</label>
                     <select id="copy-move" name="copy-move">
@@ -55,6 +55,7 @@ if (!class_exists('copy_move_comments'))
                     <option value="move">Move</option>
                     </select>
                 </div>
+                <big style="float: left; margin-top: 5px; margin-right: 7px;"><?php _e("Source"); ?>:</big> 
                 <div class="alignleft actions">
                     <?php
                 $post_types = get_post_types( '', 'names' );
@@ -140,6 +141,7 @@ function checkAll(ele) {
 new copy_move_comments(); // Initiate object
     
 add_action( 'admin_footer', 'copy_move_get_all_posts');
+add_action( 'admin_footer', 'copy_move_add_validation');
 add_action( 'wp_ajax_get_all_posts', 'get_all_posts_callback');
 add_action( 'wp_ajax_get_post_comments', 'get_post_comments_callback');
 add_action( 'wp_ajax_perform_action', 'perform_action_callback');
@@ -295,6 +297,7 @@ function get_post_comments_callback()
 
 exit;
 }
+function copy_move_add_validation(){
 ?>
 <script type="text/javascript">
 function chk_val()
@@ -331,6 +334,7 @@ function chk_val()
 }
 </script>
 <?php 
+}
 add_action( 'admin_post_action_move', 'prefix_admin_action_move' );
 function prefix_admin_action_move()
 {
